@@ -14,7 +14,7 @@ import berthaDocs from 'bertha-docs-client'; // or const berthaDocs = require('b
 const content = await berthaDocs(googleDocId, { transform: transformationFunction });
 ```
 
-You will need to add a file named `.env` to your project folder with the following secret variables:
+You will need to add a file named `.env` to your project folder with the following secret variables (generate these from when you create a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) with authorized access to the Google Drive API):
 
 - PRIVATE_KEY_ID
 - PRIVATE_KEY (private key needs to be base 64 encoded)
@@ -56,4 +56,4 @@ String (required). A valid Google Doc ID
 
 Plain object (optional).
 
-- `transform`: A function that takes in three arguments (`contentReference`, `annotation`, `label`) and returns a template string. To use this feature, you should wrap your text in the following in your Google Doc text: ```[[[content reference]]] [[annotation | label]]```
+- `transform`: A function that takes in three arguments (`contentReference`, `annotation`, `label`) and returns a string. To use this feature, you should wrap your text in the following in your Google Doc text: ```[[[content reference]]] [[annotation | label]]```
