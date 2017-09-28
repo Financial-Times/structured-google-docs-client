@@ -1,17 +1,17 @@
-# bertha-docs-client
+# structured-google-docs-client
 
 A client library for fetching and transforming markup from Google Documents
 
 ## Installation
 
-`npm install bertha-docs-client`
+`npm install structured-google-docs-client`
 
 ## Usage
 
 ```js
-import berthaDocs from 'bertha-docs-client'; // or const berthaDocs = require('bertha-docs-client');
+import structuredGoogleDoc from 'structured-google-docs-client'; // or const structuredGoogleDoc = require('structured-google-docs-client');
 
-const content = await berthaDocs(googleDocId, { transform: transformationFunction });
+const content = await structuredGoogleDoc(googleDocId, { transform: transformationFunction });
 ```
 
 You will need to add a file named `.env` to your project folder with the following secret variables (generate these from when you create a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) with authorized access to the Google Drive API):
@@ -45,7 +45,7 @@ Example:
 
 ## API
 
-### berthaDocs(googleDocId, [options])
+### structuredGoogleDoc(googleDocId, [options])
 
 Fetches the HTML of a Google Doc and returns a promise
 
