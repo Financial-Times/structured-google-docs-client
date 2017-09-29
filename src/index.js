@@ -4,9 +4,9 @@ import sanitizeDoc from './sanitize-doc';
 import transformDoc from './transform-doc';
 
 export default async (googleDocId, options) => {
-  const rawGoogleDoc = getRawGoogleDoc(googleDocId);
+  const rawGoogleDoc = await getRawGoogleDoc(googleDocId);
   const $ = cheerio.load(rawGoogleDoc);
 
-  const sanitizedDoc = sanitizeDoc($('body').html());
+  const sanitizedDoc = await sanitizeDoc($('body').html());
   return transformDoc(sanitizedDoc, options);
 };
