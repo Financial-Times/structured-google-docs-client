@@ -37,7 +37,7 @@
   "main": "dist",
   "repository": "financial-times/structured-google-docs-client",
   "scripts": {
-    "build": "npm run clean && mkdir -p dist && cp index.js dist/ && babel src --out-dir dist --source-maps",
+    "build": "npm run clean && mkdir -p dist && babel src --out-dir dist --source-maps",
     "clean": "del dist/**",
     "prepublish": "del dist/__tests__",
     "test": "jest"
