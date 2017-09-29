@@ -40,7 +40,7 @@
     "build": "npm run clean && mkdir -p dist && babel src --out-dir dist --source-maps",
     "clean": "del dist/**",
     "prepublish": "del dist/__tests__",
-    "postinstall": "npm run build",
+    "preinstall": "npm install --ignore-scripts && npm run build",
     "test": "jest"
   }
 }
