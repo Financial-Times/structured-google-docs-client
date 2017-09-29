@@ -57,9 +57,16 @@ export default async function sanitizeDoc(resp) {
 
   // fix links
   $('body').find('a').each((j, link) => {
-    const newLink = $(link).attr('href').split('&')[0].replace('https://www.google.com/url?q=', '');
-    $(link).attr('href', newLink);
-    $(link).removeAttr('style');
+    if ($(link).attr('href')) {
+      const newLink = $(link).attr('href').split('&')[0].replace('https://www.google.com/url?q=', '');
+      $(link).attr('href', newLink);
+      $(link).removeAttr('style');
+    } else {
+      // if anchor tag has no href, then remove
+      // Google Docs adds anchor tags above tables, for example, which don't need
+      // to be rendered here
+      $(link).remove();
+    }
   });
 
   // go through every other tag (like headers) and get rid of styles
@@ -69,16 +76,13 @@ export default async function sanitizeDoc(resp) {
     $(tag).removeAttr('class');
   });
 
-  $('ul').children().each((k, tag) => {
-    $(tag).removeAttr('style');
-    $(tag).removeAttr('id');
-    $(tag).removeAttr('class');
-  });
-
-  $('ol').children().each((k, tag) => {
-    $(tag).removeAttr('style');
-    $(tag).removeAttr('id');
-    $(tag).removeAttr('class');
+  const otherElementsToStrip = ['ul', 'ol', 'li', 'tr', 'td', 'th'];
+  otherElementsToStrip.forEach((element) => {
+    $(element).each((k, tag) => {
+      $(tag).removeAttr('style');
+      $(tag).removeAttr('id');
+      $(tag).removeAttr('class');
+    });
   });
 
   return $.html();
