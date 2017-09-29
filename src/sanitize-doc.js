@@ -33,17 +33,17 @@ export default async function sanitizeDoc(resp) {
 
   // replace underlines, bolds and italics
   $('body').find('span').each((i, node) => {
-    if ($(node).attr('style') === 'font-weight:700') {
+    if ($(node).attr('style').includes('font-weight:700')) {
       const bolded = $(`<b>${$(node).text()} </b>`);
       $(node).replaceWith(bolded);
     }
 
-    if ($(node).attr('style') === 'text-decoration:underline') {
+    if ($(node).attr('style').includes('text-decoration:underline')) {
       const underlined = $(`<u>${$(node).text()} </u>`);
       $(node).replaceWith(underlined);
     }
 
-    if ($(node).attr('style') === 'font-style:italic') {
+    if ($(node).attr('style').includes('font-style:italic')) {
       const italicised = $(`<i>${$(node).text()} </i>`);
       $(node).replaceWith(italicised);
     }
