@@ -43,6 +43,23 @@ Example:
 [[[We, the citizens of America are now joined in a great national effort to rebuild our country and to restore its promise for all of our people.]]] [[Inaugurals in the past have tended to start with a call for unity. President Trump does that again here with his vow to "restore promise for all".|Author Name]]
 ```
 
+You can also include markup directly into your Google Doc by wrapping your markup between two sets of ` ``` ` symbols.
+
+Example:
+
+````
+
+Normal text goes here.
+
+```
+<div id="square"></div>
+
+```  
+
+Other normal text goes here.
+
+````
+
 ## API
 
 ### structuredGoogleDoc(googleDocId, [options])

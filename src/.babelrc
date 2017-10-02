@@ -1,0 +1,16 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "node": "8.0.0"
+        },
+        "useBuiltIns": true
+      }
+    ]
+  ],
+  "plugins": [
+    ["transform-object-rest-spread", { "useBuiltIns": true }]
+  ]
+}
