@@ -35,19 +35,21 @@ export default async function sanitizeDoc(resp) {
   $('body').find('span').each((i, node) => {
     if ($(node).attr('style')) {
       if ($(node).attr('style').includes('font-weight:700')) {
-        const bolded = $(`<b>${$(node).text()} </b>`);
+        const bolded = $(`<b>${$(node).html()}</b>`);
         $(node).replaceWith(bolded);
       }
 
       if ($(node).attr('style').includes('text-decoration:underline')) {
-        const underlined = $(`<u>${$(node).text()} </u>`);
+        const underlined = $(`<u>${$(node).html()}</u>`);
         $(node).replaceWith(underlined);
       }
 
       if ($(node).attr('style').includes('font-style:italic')) {
-        const italicised = $(`<i>${$(node).text()} </i>`);
+        const italicised = $(`<i>${$(node).html()}</i>`);
         $(node).replaceWith(italicised);
       }
+
+      $(node).removeAttr('style');
     }
 
     if ($(node).text().trim() === '') {
