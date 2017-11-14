@@ -1,6 +1,6 @@
 {
   "name": "structured-google-docs-client",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "joannaskao",
   "browser": {
     "node-fetch": false
