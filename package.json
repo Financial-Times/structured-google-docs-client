@@ -11,6 +11,7 @@
     "dotenv": "^4.0.0",
     "es6-promisify": "^5.0.0",
     "googleapis": "^22.2.0",
+    "lodash.isfunction": "^3.0.9",
     "string-replace-async": "^1.2.1"
   },
   "devDependencies": {
@@ -26,7 +27,8 @@
     "eslint-plugin-babel": "^4.1.2",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.3.0"
+    "eslint-plugin-react": "^7.3.0",
+    "jest": "^23.1.0"
   },
   "engines": {
     "node": ">=8"
@@ -40,6 +42,6 @@
     "build": "npm run clean && mkdir -p dist && babel src --out-dir dist --source-maps",
     "clean": "del dist/**",
     "prepublish": "del dist/__tests__",
-    "test": "true"
+    "test": "jest"
   }
 }
