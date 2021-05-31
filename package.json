@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "del-cli": "^1.1.0",
+    "del-cli": "^3.0.1",
     "dotenv": "^4.0.0",
     "es6-promisify": "^5.0.0",
     "googleapis": "^22.2.0",
