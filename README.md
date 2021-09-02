@@ -75,6 +75,11 @@ Plain object (optional).
 
 - `transform`: A function that takes in three arguments (`contentReference`, `annotation`, `label`) and returns a string. To use this feature, you should wrap your text in the following in your Google Doc text: ```[[[content reference]]] [[annotation | label]]```
 
+#### `middleware`
+
+Either a single function (can be asynchronous) or an array of functions, evaluated right-to-left (optional).
+
+This enables text to be processed by complex chains of generic transformations.
 
 ## Licence
 This software is published by the Financial Times under the [MIT licence](http://opensource.org/licenses/MIT).
