@@ -10,7 +10,7 @@
     "del-cli": "^1.1.0",
     "dotenv": "^4.0.0",
     "es6-promisify": "^5.0.0",
-    "googleapis": "^22.2.0",
+    "googleapis": "^49.0.0",
     "string-replace-async": "^1.2.1"
   },
   "devDependencies": {
