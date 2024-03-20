@@ -5,14 +5,14 @@ workflows:
   version: 2
   build-deploy:
     jobs:
-      - checkout-install:
+      - install:
           checkout: true
           commands: 
             - run: 
                 command: npm install
       - compile:
           requires:
-            - checkout-install
+            - install
           commands:
             - run:
                 name: ESLint
