@@ -3,38 +3,32 @@ orbs:
   node: circleci/node@5.2.0
 workflows:
   version: 2
-  build-deploy:
-    jobs:
-      - install:
-          checkout: true
-          commands: 
-            - run: 
-                command: npm install
-      - compile:
-          requires:
-            - install
-          commands:
-            - run:
-                name: ESLint
-                command: ./node_modules/.bin/eslint -- .
-            - run:
-                name: Compile with babel
-                command: npm run build
+  build:
+    jobs: 
+      - build
+jobs:
+  build:
+    working_directory: ~/project
+    executor:
+      name: node/default
+      tag: '20.11-browsers'
+    steps: 
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: ESLint
+          command: ./node_modules/.bin/eslint -- .
+      - run:
+          name: Compile with babel
+          command: npm run build
       - store_artifacts:
-          requires:
-            - compile
           path: dist/
-      - deploy:
-          requires:
-            - store_artifacts
-          filters:
-            branches:
-              only: main
-          commands:
-            - run:
-                name: Maybe publish to npm
-                command: |
-                  if [ "${CIRCLE_BRANCH}" == "main" ]; then
-                    echo -e "$NPM_USERNAME\n$NPM_PASSWORD\n$NPM_EMAIL" | npm login
-                    ./node_modules/.bin/publish
-                  fi
+      - run:
+          name: Maybe publish to npm
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "main" ]; then
+              echo -e "$NPM_USERNAME\n$NPM_PASSWORD\n$NPM_EMAIL" | npm login
+              ./node_modules/.bin/publish
+            fi
