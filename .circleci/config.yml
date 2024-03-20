@@ -32,8 +32,7 @@ jobs:
           name: Maybe publish to npm
           command: |
             if [ "${CIRCLE_BRANCH}" == "main" ]; then
-              echo -e "$NPM_USERNAME\n$NPM_PASSWORD\n$NPM_EMAIL" | npm login
-              ./node_modules/.bin/publish
+              npm publish
             fi
 commands:
   add-npm-tokens:
