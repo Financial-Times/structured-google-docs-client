@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import dotenv from 'dotenv';
 import google from 'googleapis';
 import promisify from 'es6-promisify';

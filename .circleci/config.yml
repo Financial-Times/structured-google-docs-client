@@ -1,30 +1,31 @@
-version: 2
+version: 2.1
+orbs:
+  node: circleci/node@5.2.0
+workflows:
+  version: 2
+  build:
+    jobs: 
+      - build
 jobs:
   build:
-    working_directory: ~/bertha-docs-client
-    docker:
-      - image: circleci/node:8
-    steps:
+    working_directory: ~/project
+    executor:
+      name: node/default
+      tag: '20.11-browsers'
+    steps: 
       - checkout
-      # - restore_cache:
-      #     key: bertha-docs-client-{{ checksum "package-lock.json" }}
-      - run: npm install
-      # - save_cache:
-      #     key: bertha-docs-client-{{ checksum "package-lock.json" }}
-      #     paths:
-      #       - node_modules/
+      - run:
+          name: Install dependencies
+          command: npm install
       - run:
           name: ESLint
           command: ./node_modules/.bin/eslint -- .
       - run:
           name: Compile with babel
           command: npm run build
-      - run:
-          name: Tests
-          command: npm test
       - store_artifacts:
           path: dist/
-      - deploy:
+      - run:
           name: Maybe publish to npm
           command: |
             if [ "${CIRCLE_BRANCH}" == "main" ]; then

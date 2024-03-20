@@ -29,7 +29,8 @@
     "eslint-plugin-react": "^7.3.0"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=20",
+    "npm": ">=10"
   },
   "files": [
     "dist"
