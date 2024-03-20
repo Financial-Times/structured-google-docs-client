@@ -1,6 +1,7 @@
 import cheerio from 'cheerio';
 
 if (!String.prototype.trim) {
+  // eslint-disable-next-line no-extend-native, func-names
   String.prototype.trim = function () {
     return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
   };
