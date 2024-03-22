@@ -21,6 +21,10 @@ jobs:
       - run:
           name: ESLint
           command: ./node_modules/.bin/eslint -- .
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .          
   release_npm: 
     <<: *default_container_config
     steps: 
