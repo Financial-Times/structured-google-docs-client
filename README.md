@@ -75,6 +75,23 @@ Plain object (optional).
 
 - `transform`: A function that takes in three arguments (`contentReference`, `annotation`, `label`) and returns a string. To use this feature, you should wrap your text in the following in your Google Doc text: ```[[[content reference]]] [[annotation | label]]```
 
+## Releasing
+
+First make sure your local is up to date with the origin and that you're on the `main` branch:
+
+```bash
+$ git pull
+$ git checkout main
+```
+
+Next, run `npm version [major|minor|patch]` to increment the version based on the type of changes in this release. We use [Semantic Versioning](https://semver.org/) to increment versions:
+
+- Breaking (non-backwards-compatible) changes should be a `major` release
+- New features (that are backwards-compatible) should be `minor`
+- Bug fixes should be a `patch`
+- Alternatively, you can use `npm version vX.X.X` to set the version yourself.
+
+Finally, run `git push --follow-tags` to push the new version to GitHub, which will trigger the CircleCI pipeline that publishes the new version on NPM.
 
 ## Licence
 This software is published by the Financial Times under the [MIT licence](http://opensource.org/licenses/MIT).

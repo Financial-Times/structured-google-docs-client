@@ -1,34 +1,65 @@
 version: 2.1
 orbs:
+  doppler-circleci: ft-circleci-orbs/doppler-circleci@1.4
   node: circleci/node@5.2.0
-workflows:
-  version: 2
-  build:
-    jobs: 
-      - build
-jobs:
-  build:
-    working_directory: ~/project
+references:
+  default_container_config: &default_container_config
     executor:
       name: node/default
       tag: '20.11-browsers'
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: ~/project
+jobs:
+  install:
+    <<: *default_container_config
     steps: 
       - checkout
+      - doppler-circleci/install
       - run:
           name: Install dependencies
           command: npm install
       - run:
           name: ESLint
           command: ./node_modules/.bin/eslint -- .
+  release_npm: 
+    <<: *default_container_config
+    steps: 
+      - *attach_workspace
+      - doppler-circleci/load_secrets:
+          doppler_token: DOPPLER_TOKEN
       - run:
-          name: Compile with babel
-          command: npm run build
-      - store_artifacts:
-          path: dist/
-      - run:
-          name: Maybe publish to npm
+          name: Add npm token
           command: |
-            if [ "${CIRCLE_BRANCH}" == "main" ]; then
-              echo -e "$NPM_USERNAME\n$NPM_PASSWORD\n$NPM_EMAIL" | npm login
-              ./node_modules/.bin/publish
+            npm set @financial-times:registry=https://registry.npmjs.org
+            npm set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+      - run:
+          name: Generate build
+          command: npm run build        
+      - run:
+          name: Publish to NPM
+          command: |
+            if [[ $CIRCLE_TAG =~ canary ]]
+            then
+              npm publish --access public --tag canary
+            else
+              npm publish --access public --tag latest
             fi
+workflows:
+  version: 2
+  build-and-release:
+    jobs:
+      - install:
+          filters: 
+            tags: 
+              only: /.*/
+      - release_npm:
+          context:
+            - djd-npm-publish
+          requires: 
+            - install
+          filters: 
+            tags: 
+              only: /^v.*/
+            branches: 
+              ignore: /.*/
