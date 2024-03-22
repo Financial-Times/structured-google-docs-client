@@ -2,34 +2,20 @@ version: 2.1
 orbs:
   doppler-circleci: ft-circleci-orbs/doppler-circleci@1.4
   node: circleci/node@5.2.0
-workflows:
-  version: 2
-  build-and-release:
-    jobs:
-      - install:
-          filters: 
-            tags: 
-              only: /.*/
-      - release_npm:
-          context:
-            - djd-npm-publish
-          requires: 
-            - test
-          filters: 
-            tags: 
-              only: /^v.*/
-            branches: 
-              ignore: /.*/
-jobs:
-  install:
-    working_directory: ~/project
+references:
+  default_container_config: &default_container_config
     executor:
       name: node/default
       tag: '20.11-browsers'
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: ~/project
+jobs:
+  install:
+    <<: *default_container_config
     steps: 
       - checkout
       - doppler-circleci/install
-      - add-npm-tokens
       - run:
           name: Install dependencies
           command: npm install
@@ -37,10 +23,16 @@ jobs:
           name: ESLint
           command: ./node_modules/.bin/eslint -- .
   release_npm: 
+    <<: *default_container_config
     steps: 
+      - *attach_workspace
+      - doppler-circleci/load_secrets:
+          doppler_token: DOPPLER_TOKEN
       - run:
-          name: Setup npm credentials
-          command: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ${HOME}/.npmrc
+          name: Add npm token
+          command: |
+            npm set @financial-times:registry=https://registry.npmjs.org
+            npm set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
       - run:
           name: Generate build
           command: npm run build        
@@ -53,14 +45,21 @@ jobs:
             else
               npm publish --access public --tag latest
             fi
-
-commands:
-  add-npm-tokens:
-    steps:
-      - doppler-circleci/load_secrets:
-          doppler_token: DOPPLER_TOKEN
-      - run:
-          name: Add npm token
-          command: |
-            npm set @financial-times:registry=https://registry.npmjs.org
-            npm set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+workflows:
+  version: 2
+  build-and-release:
+    jobs:
+      - install:
+          filters: 
+            tags: 
+              only: /.*/
+      - release_npm:
+          context:
+            - djd-npm-publish
+          requires: 
+            - install
+          filters: 
+            tags: 
+              only: /^v.*/
+            branches: 
+              ignore: /.*/
