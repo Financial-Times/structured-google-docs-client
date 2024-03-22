@@ -7,7 +7,7 @@ workflows:
     jobs:
       - build:
           context:
-            - djd-ccc-deploy
+            - djd-npm-publish
 jobs:
   build:
     working_directory: ~/project
@@ -39,12 +39,9 @@ commands:
   add-npm-tokens:
     steps:
       - doppler-circleci/load_secrets:
-          doppler_token: DOPPLER_NPM_TOKEN
+          doppler_token: DOPPLER_TOKEN
       - run:
-          name: Add npm and Github tokens
+          name: Add npm token
           command: |
-            npm set @ft-interactive:registry=https://npm.pkg.github.com
             npm set @financial-times:registry=https://registry.npmjs.org
-            npm set @Financial-Times:registry=https://npm.pkg.github.com
-            npm set //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
             npm set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
