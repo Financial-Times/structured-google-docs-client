@@ -15,7 +15,6 @@ jobs:
     <<: *default_container_config
     steps: 
       - checkout
-      - doppler-circleci/install
       - run:
           name: Install dependencies
           command: npm install
@@ -26,6 +25,7 @@ jobs:
     <<: *default_container_config
     steps: 
       - *attach_workspace
+      - doppler-circleci/install
       - doppler-circleci/load_secrets:
           doppler_token: DOPPLER_TOKEN
       - run:
