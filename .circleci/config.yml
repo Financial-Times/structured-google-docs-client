@@ -3,13 +3,25 @@ orbs:
   doppler-circleci: ft-circleci-orbs/doppler-circleci@1.4
   node: circleci/node@5.2.0
 workflows:
-  build:
+  version: 2
+  build-and-release:
     jobs:
-      - build:
+      - install:
+          filters: 
+            tags: 
+              only: /.*/
+      - release_npm:
           context:
             - djd-npm-publish
+          requires: 
+            - test
+          filters: 
+            tags: 
+              only: /^v.*/
+            branches: 
+              ignore: /.*/
 jobs:
-  build:
+  install:
     working_directory: ~/project
     executor:
       name: node/default
@@ -24,17 +36,24 @@ jobs:
       - run:
           name: ESLint
           command: ./node_modules/.bin/eslint -- .
+  release_npm: 
+    steps: 
       - run:
-          name: Compile with babel
-          command: npm run build
-      - store_artifacts:
-          path: dist/
+          name: Setup npm credentials
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ${HOME}/.npmrc
       - run:
-          name: Maybe publish to npm
+          name: Generate build
+          command: npm run build        
+      - run:
+          name: Publish to NPM
           command: |
-            if [ "${CIRCLE_BRANCH}" == "main" ]; then
-              npm publish
+            if [[ $CIRCLE_TAG =~ canary ]]
+            then
+              npm publish --access public --tag canary
+            else
+              npm publish --access public --tag latest
             fi
+
 commands:
   add-npm-tokens:
     steps:
