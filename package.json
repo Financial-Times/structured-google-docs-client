@@ -1,5 +1,5 @@
 {
-  "name": "structured-google-docs-client",
+  "name": "@financial-times/structured-google-docs-client",
   "version": "0.0.4",
   "author": "joannaskao",
   "browser": {
