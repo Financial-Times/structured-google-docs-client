@@ -4,12 +4,12 @@ A client library for fetching and transforming markup from Google Documents
 
 ## Installation
 
-`npm install structured-google-docs-client`
+`npm install @financial-times/structured-google-docs-client`
 
 ## Usage
 
 ```js
-import structuredGoogleDoc from 'structured-google-docs-client'; // or const structuredGoogleDoc = require('structured-google-docs-client');
+import structuredGoogleDoc from '@financial-times/structured-google-docs-client'; // or const structuredGoogleDoc = require('structured-google-docs-client');
 
 const content = await structuredGoogleDoc(googleDocId, { transform: transformationFunction });
 ```
